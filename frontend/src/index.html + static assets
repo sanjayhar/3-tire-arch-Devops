@@ -1,0 +1,14 @@
+# frontend/Dockerfile
+FROM nginx:alpine
+COPY src/ /usr/share/nginx/html
+
+# frontend/src/index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Three Tier App</title>
+</head>
+<body>
+  <h1>Welcome to the Frontend</h1>
+</body>
+</html>
