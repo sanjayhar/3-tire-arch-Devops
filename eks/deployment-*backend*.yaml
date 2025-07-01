@@ -16,7 +16,6 @@ spec:
       containers:
       - name: backend
         image: 014671183914.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-
         ports:
         - containerPort: 8080
 ---
