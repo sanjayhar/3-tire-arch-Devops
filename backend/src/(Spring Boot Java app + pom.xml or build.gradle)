@@ -1,0 +1,8 @@
+# backend/src/main/java/.../Controller.java
+@RestController
+public class HelloController {
+  @GetMapping("/api")
+  public String hello() {
+    return "Hello from Backend";
+  }
+}
