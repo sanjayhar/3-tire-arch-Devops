@@ -1,0 +1,41 @@
+# Jenkinsfile (jenkins/Jenkinsfile)
+# ----------------------------------------
+pipeline {
+  agent any
+  environment {
+    AWS_ACCOUNT_ID = "<your-account-id>"
+    AWS_REGION = "ap-south-1"
+    ECR_FRONTEND = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/frontend"
+    ECR_BACKEND = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/backend"
+  }
+  stages {
+    stage('Checkout') {
+      steps {
+        git 'https://github.com/sanjayhar/three-tier-devsecops'
+      }
+    }
+    stage('Build Frontend') {
+      steps {
+        dir('frontend') {
+          sh 'docker build -t frontend .'
+          sh 'docker tag frontend:latest $ECR_FRONTEND:latest'
+          sh 'docker push $ECR_FRONTEND:latest'
+        }
+      }
+    }
+    stage('Build Backend') {
+      steps {
+        dir('backend') {
+          sh './mvnw clean package'
+          sh 'docker build -t backend .'
+          sh 'docker tag backend:latest $ECR_BACKEND:latest'
+          sh 'docker push $ECR_BACKEND:latest'
+        }
+      }
+    }
+    stage('Deploy to EKS') {
+      steps {
+        sh 'kubectl apply -f eks/'
+      }
+    }
+  }
