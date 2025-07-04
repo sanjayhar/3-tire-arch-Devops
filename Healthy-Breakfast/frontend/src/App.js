@@ -11,7 +11,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div style={{ padding: "2rem", fontFamily: "Arial" }}>
       <h1>Healthy Breakfast Menu</h1>
       <ul>
         {menu.map((item) => (
