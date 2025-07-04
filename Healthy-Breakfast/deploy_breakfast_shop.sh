@@ -960,5 +960,3 @@ cd backend && npm test
 # Frontend tests
 cd frontend && npm test
 \`\`\`
-
-##
