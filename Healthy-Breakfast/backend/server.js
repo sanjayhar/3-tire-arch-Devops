@@ -1,22 +1,32 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const { Pool } = require('pg');
+require('dotenv').config();
+
 const app = express();
+const port = process.env.PORT || 5000;
 
-const PORT = process.env.PORT || 8080;
-
-app.use(cors());
-app.use(express.json());
-
-const menu = [
-  { id: 1, name: "Oats Porridge", price: 45 },
-  { id: 2, name: "Vegetable Upma", price: 50 },
-  { id: 3, name: "Sprouts Salad", price: 60 }
-];
-
-app.get("/api/menu", (req, res) => {
-  res.json(menu);
+// PostgreSQL connection
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: {
+    rejectUnauthorized: false // Render requires this for TLS
+  }
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend running on port ${PORT}`);
+app.get('/api/menu', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM menu_items');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('DB query error:', err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
