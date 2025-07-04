@@ -2,7 +2,7 @@
 
 # Variables
 REPO_NAME="healthy-breakfast-shop"
-GITHUB_USER="YOUR_GITHUB_USERNAME"
+GITHUB_USER="sanjayhar"
 RENDER_SERVICE_NAME="breakfast-shop"
 FRONTEND_DIR="frontend"
 BACKEND_DIR="backend"
