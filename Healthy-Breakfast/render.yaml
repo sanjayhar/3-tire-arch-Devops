@@ -1,0 +1,21 @@
+
+---
+
+### ⚙️ `render.yaml`
+
+```yaml
+services:
+  - type: web
+    name: healthy-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    rootDir: backend
+
+  - type: web
+    name: healthy-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: build
+    rootDir: frontend
